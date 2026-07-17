@@ -145,9 +145,7 @@
 }
 
 #main {
-    section {
-        padding: var(--space-6);
-    }
+    padding: var(--space-6);
 }
 
 .theme-toggle {
@@ -422,10 +420,8 @@
     }
 }
 
-.flow {
-    &>*+* {
-        margin-block-start: var(--space-4);
-    }
+.flow > :where(:not([hidden])) ~ :where(:not([hidden])) {
+    margin-block-start: var(--space-2, 1rem);
 }
 
 .page {
@@ -666,19 +662,63 @@
     background: var(--surface-active);
 }
 
-.now-entry {
-    color: var(--text-muted);
-
-    .lede {
-        padding: var(--space-3);
-
-        a {
-            display: inline flex;
-            align-items: center;
-        }
-    }
+.now-intro {
+    font-size: 1.125rem;
+    max-width: 65ch;
 }
 
-.now+.now {
-    margin-block-start: 1rem;
+.now-section {
+    margin-block-start: 3rem;
+}
+
+.now-section h2 {
+    margin-block-end: .75rem;
+}
+
+.now-section p,
+.now-section ul,
+.now-list {
+    max-width: 65ch;
+}
+
+.now-section ul {
+    padding-inline-start: 1.25rem;
+}
+
+.now-list {
+    display: grid;
+    gap: var(--space-1);
+    margin: 0;
+}
+
+.now-list div {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: .5rem 1rem;
+    padding-block: .5rem;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.now-list dt {
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.now-list dd {
+    margin: 0;
+}
+
+.now-footer {
+    margin-block-start: 4rem;
+    padding-block-start: 1.5rem;
+    border-top: 1px solid var(--border-subtle);
+    font-size: .9375rem;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 640px) {
+    .now-list div {
+        grid-template-columns: 1fr;
+        gap: .25rem;
+    }
 }
