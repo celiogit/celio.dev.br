@@ -2,21 +2,22 @@
 layout: layouts/page
 eyebrow: Últimos posts
 eleventyNavigation:
-  key: Início
-  order: 1
+    icon: home
+    key: Início
+    order: 1
 ---
 
 {% if collections.posts.length > 0 %}
     <ol class="timeline" role="list">
         {% for post in collections.posts | head(10) %}
-            <li class="timeline__item">
-                <article class="timeline__entry">
-                    <time class="timeline__date" datetime="{{ post.date | htmlDateString }}">
-                        <span class="timeline__date-text">{{ post.date | readableDate("dd 'de' LLL yyyy") }}</span>
+            <li>
+                <article class="entry" tabindex="0">
+                    <time class="datetime" datetime="{{ post.date | htmlDateString }}">
+                        <span>{{ post.date | readableDate("dd 'de' LLL yyyy") }}</span>
                     </time>
 
-                    <h2 class="timeline__title">
-                        <a href="{{ post.url }}#main">{{ post.data.title }}</a>
+                    <h2 class="title">
+                        <a href="{{ post.url }}#main" tabindex="-1">{{ post.data.title }}</a>
                     </h2>
                 </article>
             </li>

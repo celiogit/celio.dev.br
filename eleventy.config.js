@@ -1,6 +1,6 @@
 ﻿import { InputPathToUrlTransformPlugin } from "@11ty/eleventy";
 import pluginNavigation from "@11ty/eleventy-navigation";
-import pluginMarkdown from "./utils/markdown.js";
+import pluginMarkdown, { md } from "./utils/markdown.js";
 import pluginFilters from "./utils/filters.js";
 import pluginIcons from "eleventy-plugin-icons";
 
@@ -27,16 +27,12 @@ export default function (eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("assets/");
 	eleventyConfig.addWatchTarget("assets/");
 
-	eleventyConfig.addNunjucksShortcode("infobox", function (type, content) {
-		const types = {
-			info: 'info',
-			warning: 'warning',
-			danger: 'danger'
-		};
+	eleventyConfig.addPairedShortcode("infobox", function (content, type = "info", title = "") {
+		const validType = ["info", "warning", "danger"].includes(type)
+			? type
+			: "info";
 
-		const validType = types[type] || 'info'; // Default to info if type is invalid
-
-		return `<div class="infobox infobox--${validType}"><p class="infobox__content">${content}</p></div>`;
+		return `<div class="infobox infobox--${validType}"><div class="content">${title ? `<span class="title">${title}</span>` : ""} ${md.render(content.trim())}</div></div>`;
 	});
 
 	// Collections: Posts

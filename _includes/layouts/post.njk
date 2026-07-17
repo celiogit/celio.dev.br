@@ -6,35 +6,35 @@ layout: layouts/base
 
 <section class="page page--post">
     <article class="post">
-        <header class="page__header post__header">
-            <p class="post__kicker"><a href="./content/blog/index.njk">arquivo</a> / post</p>
-            <h1 class="page__title post__title">{{ title }}</h1>
+        <header class="header">
+            <p class="eyebrow"><a href="./content/blog/index.njk">arquivo</a> / post</p>
+            <h1 class="title">{{ title }}</h1>
             {% if description %}
-                <p class="post__dek">{{ description }}</p>
+                <p class="dek">{{ description }}</p>
             {% endif %}
-            <div class="post__meta">
-                <time class="post__date" datetime="{{ page.date | htmlDateString }}">
-                    {% icon "custom:calendar-dot", width = "1.15em" %}
-                    <span class="post__date-text">{{ page.date | readableDate }}</span>
+            <div class="meta">
+                <time class="datetime" datetime="{{ page.date | htmlDateString }}">
+                    {% icon "custom:clock", width = "20px" %}
+                    <span>{{ page.date | readableDate("dd 'de' LLL 'às' H:mm") }}</span>
                 </time>
                 {% if visibleTags and visibleTags.length %}
-                    <ul class="tag-list post__tags" role="list" aria-label="Tags do post">
+                    <ul class="tag-list" role="list" aria-label="Tags do post">
                         {% for tag in visibleTags %}
-                            <li class="tag-list__item">{{ tag }}</li>
+                            <li>{{ tag }}</li>
                         {% endfor %}
                     </ul>
                 {% endif %}
             </div>
         </header>
-        <div class="page__content content post__content">
+        <div class="flow">
             {{ content | safe }}
         </div>
         {% if visibleTags and visibleTags.length %}
-            <footer class="post__footer">
-                <p class="post__footer-label">Indexado em</p>
-                <ul class="tag-list tag-list--muted post__tags" role="list" aria-label="Tags do post no rodapé">
+            <footer class="footer">
+                <p class="label">Indexado em</p>
+                <ul class="tag-list" role="list" aria-label="Tags do post no rodapé">
                     {% for tag in visibleTags %}
-                        <li class="tag-list__item">{{ tag }}</li>
+                        <li>{{ tag }}</li>
                     {% endfor %}
                 </ul>
             </footer>

@@ -4,76 +4,145 @@
         {% include "head.njk" %}
     </head>
     <body>
-        <header class="sidebar">
-            <div class="sidebar__inner">
-                <div class="accent-picker">
+        <div id="app">
+            <header class="sidebar">
+                <div class="inner">
+                    <button class="theme-toggle" type="button" aria-label="Tema">
+                        <span class="icon-light">
+                            {% icon "custom:sun", width = "22px" %}
+                        </span>
+                        <span class="icon-dark">
+                            {% icon "custom:moon", width = "22px" %}
+                        </span>
+                    </button>
+                    <div class="accent-picker" hidden>
                         <button
-                            class="accent-picker__toggle"
+                            class="toggle"
                             type="button"
                             aria-controls="accent-picker-options"
                             aria-label="Escolher cor de destaque"
-                            tabindex="0"
-                        >
-                            <span class="accent-picker__toggle-dot" aria-hidden="true"></span>
+                            tabindex="0">
+                            <span class="dot" aria-hidden="true"></span>
                         </button>
-
-                        <div class="accent-picker__panel" id="accent-picker-options" tabindex="-1">
-                        <p class="accent-picker__label">Escolha uma cor</p>
-                        <div class="accent-picker__options" role="group" aria-label="Escolher cor de destaque">
-                            <button class="accent-picker__swatch" type="button" data-accent="#2d9cdb" aria-label="Azul" aria-pressed="true" style="--swatch-color: #2d9cdb;"></button>
-                            <button class="accent-picker__swatch" type="button" data-accent="#0f766e" aria-label="Verde petróleo" aria-pressed="false" style="--swatch-color: #0f766e;"></button>
-                            <button class="accent-picker__swatch" type="button" data-accent="#2f9e44" aria-label="Verde" aria-pressed="false" style="--swatch-color: #2f9e44;"></button>
-                            <button class="accent-picker__swatch" type="button" data-accent="#d97706" aria-label="Âmbar" aria-pressed="false" style="--swatch-color: #d97706;"></button>
-                            <button class="accent-picker__swatch" type="button" data-accent="#c2410c" aria-label="Terracota" aria-pressed="false" style="--swatch-color: #c2410c;"></button>
-                            <button class="accent-picker__swatch" type="button" data-accent="#7c3aed" aria-label="Violeta" aria-pressed="false" style="--swatch-color: #7c3aed;"></button>
+                        <div class="panel" id="accent-picker-options" tabindex="-1">
+                            <span class="sr-only">Escolha uma cor</span>
+                            <div class="options" role="group" aria-label="Escolher cor de destaque">
+                                <button
+                                    class="swatch"
+                                    type="button"
+                                    data-accent="#4a86cf"
+                                    aria-label="Azul oceano"
+                                    aria-pressed="true"
+                                    style="--swatch-color: #4a86cf;"></button>
+                                <button
+                                    class="swatch"
+                                    type="button"
+                                    data-accent="#4caf78"
+                                    aria-label="Verde suave"
+                                    aria-pressed="false"
+                                    style="--swatch-color: #4caf78;"></button>
+                                <button
+                                    class="swatch"
+                                    type="button"
+                                    data-accent="#45b8d8"
+                                    aria-label="Azul piscina"
+                                    aria-pressed="false"
+                                    style="--swatch-color: #45b8d8;"></button>
+                                <button
+                                    class="swatch"
+                                    type="button"
+                                    data-accent="#d4a72c"
+                                    aria-label="Dourado"
+                                    aria-pressed="false"
+                                    style="--swatch-color: #d4a72c;"></button>
+                                <button
+                                    class="swatch"
+                                    type="button"
+                                    data-accent="#e06c75"
+                                    aria-label="Coral"
+                                    aria-pressed="false"
+                                    style="--swatch-color: #e06c75;"></button>
+                                <button
+                                    class="swatch"
+                                    type="button"
+                                    data-accent="#9b72cf"
+                                    aria-label="Lavanda"
+                                    aria-pressed="false"
+                                    style="--swatch-color: #9b72cf;"></button>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <a class="sidebar__avatar" aria-label="Página inicial" href="/">
-                    <img class="sidebar__avatar-image" width="144" height="144" src="https://gravatar.com/avatar/343a416fd183746c03fa7c2cd750cf15?size=256&cache=1729188961042" alt="Retrato de {{ site.title }}">
-                </a>
-
-                <div class="sidebar__identity">
-                    <p class="sidebar__kicker">{{ site.baseurl | replace("https://", "") }}</p>
-                    <p class="sidebar__title">
-                        <a class="sidebar__title-link" aria-label="Página inicial" href="/">{{ site.title }}</a>
-                    </p>
-                    <p class="sidebar__desc">{{ site.desc }}</p>
-                </div>
-
-                <nav class="sidebar__nav" aria-label="Principal">
-                    {%- set navPages = collections.all | eleventyNavigation %}
-                    <ul role="list">
-                        {% for entry in navPages %}
-                            {%- set isActive = page.url == '/' if entry.url == '/' else page.url.indexOf(entry.url) == 0 -%}
+                    <div class="alfa">
+                        <a class="avatar" aria-label="Página inicial" href="/">
+                            <img
+                                width="128"
+                                height="128"
+                                src="https://gravatar.com/avatar/343a416fd183746c03fa7c2cd750cf15?size=256&cache=1729188961042"
+                                alt="Retrato de {{ site.title }}">
+                        </a>
+                        <div class="identity">
+                            <p class="kicker">{{ site.baseurl | replace("https://", "") }}</p>
+                            <p class="title">
+                                <a aria-label="Página inicial" href="/">{{ site.title }}</a>
+                            </p>
+                            <p class="description">{{ site.desc }}</p>
+                        </div>
+                    </div>
+                    <nav class="nav" aria-label="Principal">
+                        {%- set navPages = collections.all | eleventyNavigation %}
+                        <ul role="list">
+                            {% for entry in navPages %}
+                                <li>
+                                    <a href="{{ entry.url }}" data-route="{{ entry.url }}" class>
+                                        <span class="label">{{ entry.title }}</span>
+                                    </a>
+                                </li>
+                            {%- endfor %}
+                        </ul>
+                    </nav>
+                    <div class="footer">
+                        <ul role="list" class="social-links">
                             <li>
-                                <a class="sidebar__nav-link{% if isActive %} is-active{% endif %}" href="{{ entry.url }}"{% if isActive %} aria-current="page"{% endif %}>
-                                    <span class="sidebar__nav-label">{{ entry.title }}</span>
+                                <a target="_blank" rel="noreferrer" href="https://github.com/celiodevbr" aria-label="Github">
+                                    {% icon "custom:github", width = "22px" %}
                                 </a>
                             </li>
-                        {%- endfor %}
-                    </ul>
-                </nav>
-
-                <div class="sidebar__footer">
-                    <ul role="list" class="social-links">
-                        <li>
-                            <a class="social-links__link" target="_blank" rel="noreferrer" href="https://github.com/celiodevbr" aria-label="Github">
-                                {% icon "custom:github-logo--duotone", width = "22px" %}
-                            </a>
-                        </li>
-                        <li>
-                            <a class="social-links__link" target="_blank" rel="me" href="https://fosstodon.org/@celio" aria-label="Mastodon">
-                                {% icon "custom:mastodon-logo--duotone", width = "22px" %}
-                            </a>
-                        </li>
-                    </ul>
+                            <li>
+                                <a target="_blank" rel="me" href="https://fosstodon.org/@celio" aria-label="Mastodon">
+                                    {% icon "custom:mastodon", width = "22px" %}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </header>
-        <main id="main">
-            {{ content | safe }}
-        </main>
+            </header>
+            <main id="main">
+                {{ content | safe }}
+            </main>
+        </div>
+        <script>
+            document.addEventListener("click", (event) => {
+                const entry = event.target.closest(".entry");
+                if (! entry) 
+                    return;
+                
+                // Se clicou em um elemento interativo, deixa ele agir normalmente.
+                if (event.target.closest("a, button, input, textarea, select")) {
+                    return;
+                }
+                entry.querySelector("a") ?. click();
+            });
+            document.addEventListener("keydown", (event) => {
+                if (event.key !== "Enter" && event.key !== " ") 
+                    return;
+                
+                const entry = event.target.closest(".entry");
+                if (! entry) 
+                    return;
+                
+                event.preventDefault();
+                entry.querySelector("a") ?. click();
+            });
+        </script>
     </body>
 </html>

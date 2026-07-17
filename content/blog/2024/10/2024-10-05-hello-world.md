@@ -9,9 +9,24 @@ tags:
   - eleventy
 ---
 
-Este post serve como uma referência rápida de escrita e formatação para este blog.
+{% infobox "info" %}
+Agora é possível navegar usando **negrito** apenas o teclado.
 
-A ideia aqui é mostrar, em um só lugar, alguns dos principais recursos disponíveis nos posts: parágrafos normais, imagens, listas, notas de rodapé e componentes customizados.
+- Suporte a Tab
+- Melhor foco
+- Melhor acessibilidade
+{% endinfobox %}
+
+{% infobox "info" %}
+Agora é possível navegar usando **negrito**.
+
+- Item 1
+- Item 2
+
+[Link](https://...)
+`código`
+> citação
+{% endinfobox %}
 
 ## Texto comum
 
@@ -34,19 +49,11 @@ Essas tags podem ser usadas para categorizar conteúdos e facilitar navegação 
 
 ## Blocos informativos
 
-O blog também aceita caixas informativas customizadas.
+{% infobox "warning" %}
+As a general rule, I don’t recommend trying to apply any CSS reset to an existing codebase. Whenever we tinker with baseline styles, we risk things breaking in subtle ways that we might not notice (but our users will).
 
-{% infobox "info", "Lembre-se de sempre salvar seu trabalho antes de desligar." %}
-
-Esse tipo de bloco é útil para observações gerais, contexto extra ou explicações complementares.
-
-{% infobox "warning", "Salve o conteúdo antes de desligar!" %}
-
-Esse formato pode ser usado para alertas, limitações, observações importantes ou detalhes que merecem mais atenção.
-
-{% infobox "danger", "Você perdeu todo seu trabalho!" %}
-
-Já essa variação pode ser reservada para erros, avisos críticos ou qualquer informação que realmente precise de destaque forte.
+If you do go this route, be sure to do extensive testing to make sure everything still looks good.
+{% endinfobox %}
 
 ## Imagens
 

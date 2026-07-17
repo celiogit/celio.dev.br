@@ -3,24 +3,24 @@ layout: layouts/base
 ---
 
 <section class="page">
-    <header class="page__header">
+    <header class="header">
         {% if eyebrow %}
-            <p class="page__eyebrow">{{ eyebrow }}</p>
+            <p class="eyebrow">{{ eyebrow }}</p>
         {% endif %}
 
-        <h1 class="page__title">{{ title }}</h1>
+        <h1 class="title">{{ title }}</h1>
 
         {% if description %}
-            <p class="page__intro">{{ description }}</p>
+            <p class="intro">{{ description }}</p>
         {% endif %}
 
         {% if meta %}
             <div class="infobox infobox--{{ tone or 'info' }} page__meta">
-                <p class="infobox__content">{{ meta | safe }}</p>
+                <p class="content">{{ meta | safe }}</p>
             </div>
         {% endif %}
     </header>
-    <div class="page__content content">
+    <div class="content">
         {{ content | safe }}
     </div>
 </section>

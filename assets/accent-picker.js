@@ -1,49 +1,120 @@
-const ACCENT_STORAGE_KEY = "lp-accent";
-const DEFAULT_ACCENT = "#2d9cdb";
+const AccentPicker = {
+    STORAGE_KEY: "lp-accent",
+    DEFAULT_ACCENT: "#3584e4",
 
-function applyAccent(value) {
-    document.documentElement.style.setProperty("--accent", value);
-}
+    DEBUG: false,
 
-function syncPressedState(buttons, activeValue) {
-    for (const button of buttons) {
-        button.setAttribute(
-            "aria-pressed",
-            String(button.dataset.accent === activeValue)
-        );
-    }
-}
+    init({ debug = this.DEBUG } = {}) {
+        this.DEBUG = debug;
 
-function initAccentPicker() {
-    const buttons = Array.from(document.querySelectorAll(".accent-picker__swatch"));
-    if (!buttons.length) {
-        return;
-    }
+        this.log("debug", "Initializing accent picker...");
 
-    let activeAccent = DEFAULT_ACCENT;
+        this.buttons = document.querySelectorAll(".accent-picker .swatch");
 
-    try {
-        activeAccent = localStorage.getItem(ACCENT_STORAGE_KEY) || DEFAULT_ACCENT;
-    } catch (_) {}
+        if (this.buttons.length === 0) {
+            this.log("warn", "No accent buttons found.");
+            return;
+        }
 
-    applyAccent(activeAccent);
-    syncPressedState(buttons, activeAccent);
+        this.log("info", `Found ${this.buttons.length} accent button(s).`);
 
-    for (const button of buttons) {
-        button.addEventListener("click", () => {
-            const nextAccent = button.dataset.accent || DEFAULT_ACCENT;
-            applyAccent(nextAccent);
-            syncPressedState(buttons, nextAccent);
+        const accent = this.load();
+        this.apply(accent);
 
-            try {
-                localStorage.setItem(ACCENT_STORAGE_KEY, nextAccent);
-            } catch (_) {}
-        });
-    }
-}
+        for (const button of this.buttons) {
+            button.addEventListener("click", () => {
+                const accent = button.dataset.accent ?? this.DEFAULT_ACCENT;
 
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initAccentPicker, { once: true });
-} else {
-    initAccentPicker();
-}
+                this.log("debug", "Accent button clicked.", accent);
+
+                this.apply(accent);
+            });
+        }
+
+        this.log("info", "Accent picker initialized.");
+    },
+
+    apply(accent) {
+        this.log("debug", "Applying accent:", accent);
+
+        document.documentElement.style.setProperty("--accent", accent);
+
+        this.sync(accent);
+        this.save(accent);
+
+        this.log("info", "Accent applied.");
+    },
+
+    sync(accent) {
+        this.log("debug", "Syncing button states...");
+
+        for (const button of this.buttons) {
+            button.setAttribute(
+                "aria-pressed",
+                String(button.dataset.accent === accent)
+            );
+        }
+
+        this.log("info", "Button states synchronized.");
+    },
+
+    load() {
+        this.log("debug", "Loading accent from localStorage...");
+
+        try {
+            const accent = localStorage.getItem(this.STORAGE_KEY);
+
+            if (accent === null) {
+                this.log(
+                    "warn",
+                    "No saved accent found. Using default:",
+                    this.DEFAULT_ACCENT
+                );
+
+                return this.DEFAULT_ACCENT;
+            }
+
+            this.log("info", "Loaded accent:", accent);
+
+            return accent;
+        } catch (error) {
+            this.log(
+                "error",
+                "Unable to access localStorage. Using default accent.",
+                error
+            );
+
+            return this.DEFAULT_ACCENT;
+        }
+    },
+
+    save(accent) {
+        this.log("debug", "Saving accent:", accent);
+
+        try {
+            localStorage.setItem(this.STORAGE_KEY, accent);
+
+            this.log("info", "Accent saved.");
+        } catch (error) {
+            this.log(
+                "error",
+                "Unable to save accent to localStorage.",
+                error
+            );
+        }
+    },
+
+    log(level, ...args) {
+        if (!this.DEBUG) {
+            return;
+        }
+
+        console[level]("[AccentPicker]", ...args);
+    },
+};
+
+document.readyState === "loading"
+    ? document.addEventListener("DOMContentLoaded", () => AccentPicker.init(), {
+          once: true,
+      })
+    : AccentPicker.init();

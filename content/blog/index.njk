@@ -8,32 +8,33 @@ eleventyComputed:
   meta: >
     {{ collections.posts.length }} post{% if collections.posts.length != 1 %}s{% endif %} publicado{% if collections.posts.length != 1 %}s{% endif %}.
 eleventyNavigation:
-  key: Blog
-  order: 3
+    icon: edit
+    key: Blog
+    order: 3
 ---
 
 {% if collections.posts.length > 0 %}
     <ol class="timeline" role="list">
         {% for post in collections.posts %}
             {% set visibleTags = post.data.tags | filterTagList %}
-            <li class="timeline__item">
-                <article class="timeline__entry">
-                    <time class="timeline__date" datetime="{{ post.date | htmlDateString }}">
-                        <span class="timeline__date-text">{{ post.date | readableDate("dd 'de' LLL yyyy") }}</span>
+            <li>
+                <article class="entry" tabindex="0">
+                    <time class="datetime" datetime="{{ post.date | htmlDateString }}">
+                        <span>{{ post.date | readableDate("dd 'de' LLL yyyy") }}</span>
                     </time>
 
-                    <h2 class="timeline__title">
-                        <a href="{{ post.url }}#main">{{ post.data.title }}</a>
+                    <h2 class="title">
+                        <a href="{{ post.url }}#main" tabindex="-1">{{ post.data.title }}</a>
                     </h2>
 
                     {% if post.data.description %}
-                        <p class="timeline__excerpt">{{ post.data.description }}</p>
+                        <p class="excerpt">{{ post.data.description }}</p>
                     {% endif %}
 
                     {% if visibleTags and visibleTags.length %}
-                        <ul class="tag-list tag-list--muted timeline__tags" role="list" aria-label="Tags do post">
+                        <ul class="tag-list" role="list" aria-label="Tags do post">
                             {% for tag in visibleTags %}
-                                <li class="tag-list__item">{{ tag }}</li>
+                                <li>{{ tag }}</li>
                             {% endfor %}
                         </ul>
                     {% endif %}
